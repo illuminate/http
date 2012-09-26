@@ -1,0 +1,205 @@
+<?php namespace Illuminate\Http;
+
+class Request extends \Symfony\Component\HttpFoundation\Request {
+
+	/**
+	 * Get the root URL for the application.
+	 *
+	 * @return string
+	 */
+	public function getRootUrl()
+	{
+		return $this->getSchemeAndHttpHost().$this->getBaseUrl();
+	}
+
+	/**
+	 * Determine if the request is the result of an AJAX call.
+	 * 
+	 * @return bool
+	 */
+	public function ajax()
+	{
+		return $this->isXmlHttpRequest();
+	}
+
+	/**
+	 * Determine if the request contains a given input item.
+	 *
+	 * @param  string  $key
+	 * @return bool
+	 */
+	public function has($key)
+	{
+		return trim((string) $this->input($key)) !== '';
+	}
+
+	/**
+	 * Get all of the input and files for the request.
+	 *
+	 * @return array
+	 */
+	public function everything()
+	{
+		return array_merge($this->input(), $this->files->all());
+	}
+
+	/**
+	 * Retrieve an input item from the request.
+	 *
+	 * @param  string  $key
+	 * @param  mixed   $default
+	 * @return string
+	 */
+	public function input($key = null, $default = null)
+	{
+		return array_get($this->getInputSource()->all(), $key, $default);
+	}
+
+	/**
+	 * Get a subset of the items from the input data.
+	 *
+	 * @param  array  $keys
+	 * @return array
+	 */
+	public function only($keys)
+	{
+		$keys = is_array($keys) ? $keys : func_get_args();
+
+		return array_intersect_key($this->input(), array_flip((array) $keys));
+	}
+
+	/**
+	 * Get all of the input except for a specified array of items.
+	 *
+	 * @param  array  $keys
+	 * @return array
+	 */
+	public function except($keys)
+	{
+		$keys = is_array($keys) ? $keys : func_get_args();
+
+		return array_diff_key($this->input(), array_flip((array) $keys));
+	}
+
+	/**
+	 * Retrieve a query string item from the request.
+	 *
+	 * @param  string  $key
+	 * @param  mixed   $default
+	 * @return string
+	 */
+	public function query($key = null, $default = null)
+	{
+		return $this->retrieveItem('query', $key, $default);
+	}
+
+	/**
+	 * Retrieve a cookie from the request.
+	 *
+	 * @param  string  $key
+	 * @param  mixed   $default
+	 * @return string
+	 */
+	public function cookie($key = null, $default = null)
+	{
+		return $this->retrieveItem('cookies', $key, $default);
+	}
+
+	/**
+	 * Retrieve a file from the request.
+	 *
+	 * @param  string  $key
+	 * @param  mixed   $default
+	 * @return Symfony\Component\HttpFoundation\File\UploadedFile
+	 */
+	public function file($key = null, $default = null)
+	{
+		return $this->retrieveItem('files', $key, $default);
+	}
+
+	/**
+	 * Determine if the uploaded data contains a file.
+	 *
+	 * @param  string  $key
+	 * @return bool
+	 */
+	public function hasFile($key)
+	{
+		return $this->files->has($key);
+	}
+
+	/**
+	 * Retrieve a header from the request.
+	 *
+	 * @param  string  $key
+	 * @param  mixed   $default
+	 * @return string
+	 */
+	public function header($key = null, $default = null)
+	{
+		return $this->retrieveItem('headers', $key, $default);
+	}
+
+	/**
+	 * Retrieve a parameter item from a given source.
+	 *
+	 * @param  string  $source
+	 * @param  string  $key
+	 * @param  mixed   $default
+	 * @return string
+	 */
+	protected function retrieveItem($source, $key, $default)
+	{
+		if (is_null($key))
+		{
+			return $this->$source->all();
+		}
+		else
+		{
+			return $this->$source->get($key, $default);
+		}
+	}
+
+	/**
+	 * Merge new input into the current request's input array.
+	 *
+	 * @param  array  $input
+	 * @return void
+	 */
+	public function merge(array $input)
+	{
+		$this->getInputSource()->add($input);
+	}
+
+	/**
+	 * Replace the input for the current request.
+	 *
+	 * @param  array  $input
+	 * @return void
+	 */
+	public function replace(array $input)
+	{
+		$this->getInputSource()->replace($input);
+	}
+
+	/**
+	 * Get the JSON payload for the request.
+	 *
+	 * @return object
+	 */
+	public function json()
+	{
+		return json_decode($this->getContent());
+	}
+
+	/**
+	 * Get the input source for the request.
+	 *
+	 * @return Symfony\Component\HttpFoundation\ParameterBag
+	 */
+	protected function getInputSource()
+	{
+		return $this->getMethod() == 'GET' ? $this->query : $this->request;
+	}
+
+}
