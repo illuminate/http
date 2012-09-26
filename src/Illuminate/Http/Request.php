@@ -1,6 +1,15 @@
 <?php namespace Illuminate\Http;
 
+use Illuminate\Session\Store as SessionStore;
+
 class Request extends \Symfony\Component\HttpFoundation\Request {
+
+	/**
+	 * The Illuminate session store implementation.
+	 *
+	 * @var Illuminate\Session\Store
+	 */
+	protected $sessionStore;
 
 	/**
 	 * Get the root URL for the application.
@@ -141,6 +150,42 @@ class Request extends \Symfony\Component\HttpFoundation\Request {
 	}
 
 	/**
+	 * Retrieve an old input item.
+	 *
+	 * @param  string  $key
+	 * @param  mixed   $default
+	 * @return string
+	 */
+	public function old($key = null, $default = null)
+	{
+		return $this->getSessionStore()->getOldInput($key, $default);
+	}
+
+	/**
+	 * Flash the input for the current request to the session.
+	 *
+	 * @param  string $filter
+	 * @param  array  $keys
+	 * @return void
+	 */
+	public function flash($filter = null, $keys = array())
+	{
+		$flash = ( ! is_null($filter)) ? $this->$filter($keys) : $this->input();
+
+		$this->sessionStore->flashInput($flash);
+	}
+
+	/**
+	 * Flush all of the old input from the session.
+	 *
+	 * @return void
+	 */
+	public function flush()
+	{
+		$this->sessionStore->flashInput(array());
+	}
+
+	/**
 	 * Retrieve a parameter item from a given source.
 	 *
 	 * @param  string  $source
@@ -200,6 +245,32 @@ class Request extends \Symfony\Component\HttpFoundation\Request {
 	protected function getInputSource()
 	{
 		return $this->getMethod() == 'GET' ? $this->query : $this->request;
+	}
+
+	/**
+	 * Get the Illuminate session store implementation.
+	 *
+	 * @return Illuminate\Session\Store
+	 */
+	public function getSessionStore()
+	{
+		if ( ! isset($this->sessionStore))
+		{
+			throw new \RuntimeException("Session store not set on request.");
+		}
+
+		return $this->sessionStore;
+	}
+
+	/**
+	 * Set the Illuminate session store implementation.
+	 *
+	 * @param  Illuminate\Session\Store  $session
+	 * @return void
+	 */
+	public function setSessionStore(SessionStore $session)
+	{
+		$this->sessionStore = $session;
 	}
 
 }

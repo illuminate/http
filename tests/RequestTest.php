@@ -137,4 +137,14 @@ class RequestTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(array('foo' => 'bar', 'baz' => $file), $request->everything());
 	}
 
+
+	public function testOldMethodCallsSession()
+	{
+		$request = Request::create('/', 'GET');
+		$session = m::mock('Illuminate\Session\Store');
+		$session->shouldReceive('getOldInput')->once()->with('foo', 'bar')->andReturn('boom');
+		$request->setSessionStore($session);
+		$this->assertEquals('boom', $request->old('foo', 'bar'));
+	}
+
 }
