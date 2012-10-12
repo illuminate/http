@@ -150,6 +150,18 @@ class Request extends \Symfony\Component\HttpFoundation\Request {
 	}
 
 	/**
+	 * Retrieve a server variable from the request.
+	 *
+	 * @param  string  $key
+	 * @param  mixed   $default
+	 * @return string
+	 */
+	public function server($key = null, $default = null)
+	{
+		return $this->retrieveItem('server', $key, $default);
+	}
+
+	/**
 	 * Retrieve an old input item.
 	 *
 	 * @param  string  $key

@@ -94,6 +94,14 @@ class RequestTest extends PHPUnit_Framework_TestCase {
 	}
 
 
+	public function testServerMethod()
+	{
+		$request = Request::create('/', 'GET', array(), array(), array(), array('foo' => 'bar'));
+		$this->assertEquals('bar', $request->server('foo'));
+		$this->assertEquals('bar', $request->server('foo.doesnt.exist', 'bar'));
+	}
+
+
 	public function testMergeMethod()
 	{
 		$request = Request::create('/', 'GET', array('name' => 'Taylor'));
