@@ -22,6 +22,17 @@ class Request extends \Symfony\Component\HttpFoundation\Request {
 	}
 
 	/**
+	 * Get the requestor's IP address.
+	 *
+	 * @param  mixed   $default
+	 * @return string
+	 */
+	public function ip($default = '0.0.0.0')
+	{
+		return $this->getClientIp() ?: $default;
+	}
+
+	/**
 	 * Determine if the request is the result of an AJAX call.
 	 * 
 	 * @return bool
