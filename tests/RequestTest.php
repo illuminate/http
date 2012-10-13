@@ -11,6 +11,13 @@ class RequestTest extends PHPUnit_Framework_TestCase {
 	}
 
 
+	public function testIpMethod()
+	{
+		$request = Request::create('/', 'GET', array(), array(), array(), array('REMOTE_ADDR', '127.0.0.2'));
+		$this->assertEquals('127.0.0.2', $request->ip('1.2.3.4'));
+	}
+
+
 	public function testHasMethod()
 	{
 		$request = Request::create('/', 'GET', array('name' => 'Taylor'));
