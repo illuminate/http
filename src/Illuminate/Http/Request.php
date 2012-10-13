@@ -12,13 +12,6 @@ class Request extends \Symfony\Component\HttpFoundation\Request {
 	protected $sessionStore;
 
 	/**
-	 * The request start timestamp.
-	 *
-	 * @var int
-	 */
-	protected $time;
-
-	/**
 	 * Get the root URL for the application.
 	 *
 	 * @return string
@@ -45,7 +38,7 @@ class Request extends \Symfony\Component\HttpFoundation\Request {
 	 */
 	public function time()
 	{
-		return $this->time ?: $this->time = $this->retrieveItem('server', 'REQUEST_TIME', time());
+		return $this->server->get('REQUEST_TIME');
 	}
 
 	/**
