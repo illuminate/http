@@ -11,6 +11,13 @@ class RequestTest extends PHPUnit_Framework_TestCase {
 	}
 
 
+	public function testTimeMethod()
+	{
+		$request = Request::create('/', 'GET', array(), array(), array(), array('REQUEST_TIME' => 123));
+		$this->assertEquals(123, $request->time());
+	}
+
+
 	public function testHasMethod()
 	{
 		$request = Request::create('/', 'GET', array('name' => 'Taylor'));
