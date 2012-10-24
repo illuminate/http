@@ -10,7 +10,7 @@ class Response extends \Symfony\Component\HttpFoundation\Response {
 	protected $originalContent;
 
 	/**
-	 * Set the contnet on the response.
+	 * Set the content on the response.
 	 *
 	 * @param  mixed  $content
 	 * @return void
