@@ -32,6 +32,16 @@ class Request extends \Symfony\Component\HttpFoundation\Request {
 	}
 
 	/**
+	 * Get the request start timestamp as specified by the server.
+	 *
+	 * @return int
+	 */
+	public function time()
+	{
+		return $this->server->get('REQUEST_TIME');
+	}
+
+	/**
 	 * Determine if the request contains a given input item.
 	 *
 	 * @param  string  $key
