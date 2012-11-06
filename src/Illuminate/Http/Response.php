@@ -1,6 +1,7 @@
 <?php namespace Illuminate\Http;
 
 use Illuminate\Support\JsonableInterface;
+use Illuminate\Support\RenderableInterface;
 
 class Response extends \Symfony\Component\HttpFoundation\Response {
 
@@ -29,6 +30,14 @@ class Response extends \Symfony\Component\HttpFoundation\Response {
 			$this->headers->set('Content-Type', 'application/json');
 
 			$content = $content->toJson();
+		}
+
+		// If this content implements the "RenderableInterface", then we will call the
+		// render method on the object so we will avoid any "__toString" exceptions
+		// that might be thrown and have their errors obscured by PHP's handling.
+		elseif ($content instanceof RenderableInterface)
+		{
+			$content = $content->render();
 		}
 
 		return parent::setContent($content);
