@@ -34,11 +34,21 @@ class Request extends \Symfony\Component\HttpFoundation\Request {
 	/**
 	 * Determine if the request contains a given input item.
 	 *
-	 * @param  string  $key
+	 * @param  string|array  $key
 	 * @return bool
 	 */
 	public function has($key)
 	{
+		if (count(func_get_args()) > 1)
+		{
+			foreach (func_get_args() as $value)
+			{
+				if ( ! $this->has($value)) return false;
+			}
+
+			return true;
+		}
+
 		return trim((string) $this->input($key)) !== '';
 	}
 

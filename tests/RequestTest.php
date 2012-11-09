@@ -16,6 +16,11 @@ class RequestTest extends PHPUnit_Framework_TestCase {
 		$request = Request::create('/', 'GET', array('name' => 'Taylor'));
 		$this->assertTrue($request->has('name'));
 		$this->assertFalse($request->has('foo'));
+		$this->assertFalse($request->has('name', 'email'));
+
+		$request = Request::create('/', 'GET', array('name' => 'Taylor', 'email' => 'foo'));
+		$this->assertTrue($request->has('name'));
+		$this->assertTrue($request->has('name', 'email'));
 	}
 
 
