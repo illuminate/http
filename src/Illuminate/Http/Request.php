@@ -12,6 +12,16 @@ class Request extends \Symfony\Component\HttpFoundation\Request {
 	protected $sessionStore;
 
 	/**
+	 * Return the Request instance.
+	 *
+	 * @return Illuminate\Http\Request
+	 */
+	public function instance()
+	{
+		return $this;
+	}
+
+	/**
 	 * Get the root URL for the application.
 	 *
 	 * @return string
