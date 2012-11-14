@@ -11,6 +11,26 @@ class RequestTest extends PHPUnit_Framework_TestCase {
 	}
 
 
+	public function testCurrentMethod()
+	{
+		$request = Request::create('', 'GET');
+		$this->assertEquals('/', $request->current());
+
+		$request = Request::create('/foo/bar', 'GET');
+		$this->assertEquals('foo/bar', $request->current());
+	}
+
+
+	public function testIsMethod()
+	{
+		$request = Request::create('/foo/bar', 'GET');
+
+		$this->assertTrue($request->is('foo*'));
+		$this->assertFalse($request->is('bar*'));
+		$this->assertTrue($request->is('*bar*'));
+	}
+
+
 	public function testHasMethod()
 	{
 		$request = Request::create('/', 'GET', array('name' => 'Taylor'));

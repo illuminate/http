@@ -22,6 +22,29 @@ class Request extends \Symfony\Component\HttpFoundation\Request {
 	}
 
 	/**
+	 * Get the current path info for the request.
+	 *
+	 * @return string
+	 */
+	public function current()
+	{
+		$pattern = trim($this->getPathInfo(), '/');
+
+		return $pattern == '' ? '/' : $pattern;
+	}
+
+	/**
+	 * Determine if the current request URI matches a pattern.
+	 *
+	 * @param  string  $pattern
+	 * @return bool
+	 */
+	public function is($pattern)
+	{
+		return str_is($pattern, trim($this->current(), '/'));
+	}
+
+	/**
 	 * Get the root URL for the application.
 	 *
 	 * @return string
