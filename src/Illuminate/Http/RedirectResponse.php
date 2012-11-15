@@ -39,6 +39,19 @@ class RedirectResponse extends \Symfony\Component\HttpFoundation\RedirectRespons
 	}
 
 	/**
+	 * Flash a container of errors to the session.
+	 *
+	 * @param  mixed  $errors
+	 * @return void
+	 */
+	public function withErrors($errors)
+	{
+		$this->with('errors', $errors);
+
+		return $this;
+	}
+
+	/**
 	 * Get the session store implementation.
 	 *
 	 * @return Illuminate\Session\Store
