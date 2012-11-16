@@ -41,7 +41,15 @@ class Request extends \Symfony\Component\HttpFoundation\Request {
 	 */
 	public function is($pattern)
 	{
-		return str_is($pattern, trim($this->current(), '/'));
+		foreach (func_get_args() as $pattern)
+		{
+			if (str_is($pattern, trim($this->current(), '/')))
+			{
+				return true;
+			}
+		}
+		
+		return false;
 	}
 
 	/**
