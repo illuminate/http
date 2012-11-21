@@ -28,17 +28,27 @@ class Request extends \Symfony\Component\HttpFoundation\Request {
 	 */
 	public function root()
 	{
-		return $this->getSchemeAndHttpHost().$this->getBaseUrl();
+		return rtrim($this->getSchemeAndHttpHost().$this->getBaseUrl(), '/');
 	}
+
+	/**
+	 * Get the URL (no query string) for the request.
+	 *
+	 * @return string
+	 */
+	public function url()
+	{
+		return rtrim(preg_replace('/\?.*/', '', $this->getUri()), '/');
+	}	
 
 	/**
 	 * Get the full URL for the request.
 	 *
 	 * @return string
 	 */
-	public function url()
+	public function fullUrl()
 	{
-		return $this->getUri();
+		return rtrim($this->getUri(), '/');
 	}
 
 	/**

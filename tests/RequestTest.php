@@ -11,13 +11,30 @@ class RequestTest extends PHPUnit_Framework_TestCase {
 	}
 
 
-	public function testCurrentMethod()
+	public function testPathMethod()
 	{
 		$request = Request::create('', 'GET');
 		$this->assertEquals('/', $request->path());
 
 		$request = Request::create('/foo/bar', 'GET');
 		$this->assertEquals('foo/bar', $request->path());
+	}
+
+
+	public function testUrlMethod()
+	{
+		$request = Request::create('http://foo.com/foo/bar?name=taylor', 'GET');
+		$this->assertEquals('http://foo.com/foo/bar', $request->url());
+
+		$request = Request::create('http://foo.com/foo/bar/?', 'GET');
+		$this->assertEquals('http://foo.com/foo/bar', $request->url());
+	}
+
+
+	public function testFullUrlMethod()
+	{
+		$request = Request::create('http://foo.com/foo/bar?name=taylor', 'GET');
+		$this->assertEquals('http://foo.com/foo/bar?name=taylor', $request->fullUrl());
 	}
 
 
