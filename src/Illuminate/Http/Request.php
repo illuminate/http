@@ -22,6 +22,16 @@ class Request extends \Symfony\Component\HttpFoundation\Request {
 	}
 
 	/**
+	 * Get the root URL for the application.
+	 *
+	 * @return string
+	 */
+	public function getRootUrl()
+	{
+		return $this->getSchemeAndHttpHost().$this->getBaseUrl();
+	}
+
+	/**
 	 * Get the current path info for the request.
 	 *
 	 * @return string
@@ -50,16 +60,6 @@ class Request extends \Symfony\Component\HttpFoundation\Request {
 		}
 		
 		return false;
-	}
-
-	/**
-	 * Get the root URL for the application.
-	 *
-	 * @return string
-	 */
-	public function getRootUrl()
-	{
-		return $this->getSchemeAndHttpHost().$this->getBaseUrl();
 	}
 
 	/**
