@@ -26,9 +26,19 @@ class Request extends \Symfony\Component\HttpFoundation\Request {
 	 *
 	 * @return string
 	 */
-	public function getRootUrl()
+	public function root()
 	{
 		return $this->getSchemeAndHttpHost().$this->getBaseUrl();
+	}
+
+	/**
+	 * Get the full URL for the request.
+	 *
+	 * @return string
+	 */
+	public function url()
+	{
+		return $this->getUri();
 	}
 
 	/**
@@ -36,7 +46,7 @@ class Request extends \Symfony\Component\HttpFoundation\Request {
 	 *
 	 * @return string
 	 */
-	public function current()
+	public function path()
 	{
 		$pattern = trim($this->getPathInfo(), '/');
 
@@ -53,7 +63,7 @@ class Request extends \Symfony\Component\HttpFoundation\Request {
 	{
 		foreach (func_get_args() as $pattern)
 		{
-			if (str_is($pattern, trim($this->current(), '/')))
+			if (str_is($pattern, trim($this->path(), '/')))
 			{
 				return true;
 			}

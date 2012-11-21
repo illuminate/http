@@ -14,10 +14,10 @@ class RequestTest extends PHPUnit_Framework_TestCase {
 	public function testCurrentMethod()
 	{
 		$request = Request::create('', 'GET');
-		$this->assertEquals('/', $request->current());
+		$this->assertEquals('/', $request->path());
 
 		$request = Request::create('/foo/bar', 'GET');
-		$this->assertEquals('foo/bar', $request->current());
+		$this->assertEquals('foo/bar', $request->path());
 	}
 
 
