@@ -1,7 +1,7 @@
 <?php namespace Illuminate\Http;
 
-use Illuminate\Support\JsonableInterface;
-use Illuminate\Support\RenderableInterface;
+use Illuminate\Support\Contracts\JsonableInterface;
+use Illuminate\Support\Contracts\RenderableInterface;
 
 class Response extends \Symfony\Component\HttpFoundation\Response {
 
