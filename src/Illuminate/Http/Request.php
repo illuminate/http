@@ -132,7 +132,7 @@ class Request extends \Symfony\Component\HttpFoundation\Request {
 	 */
 	public function input($key = null, $default = null)
 	{
-		return array_get($this->getInputSource()->all(), $key, $default);
+		return array_get($this->request->all(), $key, $default);
 	}
 
 	/**
@@ -296,7 +296,7 @@ class Request extends \Symfony\Component\HttpFoundation\Request {
 	 */
 	public function merge(array $input)
 	{
-		$this->getInputSource()->add($input);
+		$this->request->add($input);
 	}
 
 	/**
@@ -307,7 +307,7 @@ class Request extends \Symfony\Component\HttpFoundation\Request {
 	 */
 	public function replace(array $input)
 	{
-		$this->getInputSource()->replace($input);
+		$this->request->replace($input);
 	}
 
 	/**
@@ -318,16 +318,6 @@ class Request extends \Symfony\Component\HttpFoundation\Request {
 	public function json()
 	{
 		return json_decode($this->getContent());
-	}
-
-	/**
-	 * Get the input source for the request.
-	 *
-	 * @return Symfony\Component\HttpFoundation\ParameterBag
-	 */
-	protected function getInputSource()
-	{
-		return $this->getMethod() == 'GET' ? $this->query : $this->request;
 	}
 
 	/**
