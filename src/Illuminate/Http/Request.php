@@ -73,7 +73,7 @@ class Request extends \Symfony\Component\HttpFoundation\Request {
 	{
 		foreach (func_get_args() as $pattern)
 		{
-			if (str_is($pattern, trim($this->path(), '/')))
+			if (str_is($pattern, $this->path()))
 			{
 				return true;
 			}

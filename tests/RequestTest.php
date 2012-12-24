@@ -45,6 +45,10 @@ class RequestTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue($request->is('foo*'));
 		$this->assertFalse($request->is('bar*'));
 		$this->assertTrue($request->is('*bar*'));
+
+		$request = Request::create('/', 'GET');
+
+		$this->assertTrue($request->is('/'));
 	}
 
 
