@@ -5,6 +5,13 @@ use Illuminate\Session\Store as SessionStore;
 class RedirectResponse extends \Symfony\Component\HttpFoundation\RedirectResponse {
 
 	/**
+	 * The request instance.
+	 *
+	 * @var Illuminate\Http\Request
+	 */
+	protected $request;
+
+	/**
 	 * The session store implementation.
 	 *
 	 * @var Illuminate\Session\Store
@@ -31,11 +38,35 @@ class RedirectResponse extends \Symfony\Component\HttpFoundation\RedirectRespons
 	 * @param  array  $input
 	 * @return void
 	 */
-	public function withInput(array $input)
+	public function withInput(array $input = null)
 	{
+		$input = $input ?: $this->request->input();
+
 		$this->session->flashInput($input);
 
 		return $this;
+	}
+
+	/**
+	 * Flash an array of input to the session.
+	 *
+	 * @param  dynamic  string
+	 * @return void
+	 */
+	public function onlyInput()
+	{
+		return $this->withInput($this->request->only(func_get_args()));
+	}
+
+	/**
+	 * Flash an array of input to the session.
+	 *
+	 * @param  dynamic  string
+	 * @return void
+	 */
+	public function exceptInput()
+	{
+		return $this->withInput($this->request->except(func_get_args()));
 	}
 
 	/**
@@ -49,6 +80,27 @@ class RedirectResponse extends \Symfony\Component\HttpFoundation\RedirectRespons
 		$this->with('errors', $errors);
 
 		return $this;
+	}
+
+	/**
+	 * Get the request instance.
+	 *
+	 * @return  Illuminate\Http\Request
+	 */
+	public function getRequest()
+	{
+		return $this->request;
+	}
+
+	/**
+	 * Set the request instance.
+	 *
+	 * @param  Illuminate\Http\Request  $request
+	 * @return void
+	 */
+	public function setRequest(Request $request)
+	{
+		$this->request = $request;
 	}
 
 	/**

@@ -1,6 +1,8 @@
 <?php
 
 use Mockery as m;
+use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Contracts\JsonableInterface;
 
 class ResponseTest extends PHPUnit_Framework_TestCase {
@@ -26,6 +28,36 @@ class ResponseTest extends PHPUnit_Framework_TestCase {
 		$response = new Illuminate\Http\Response($mock);
 		$this->assertEquals('foo', $response->getContent());		
 	}
+
+
+    public function testInputOnRedirect()
+    {
+        $response = new RedirectResponse('foo.bar');
+        $response->setRequest(Request::create('/', 'GET', array('name' => 'Taylor', 'age' => 26)));
+        $response->setSession($session = m::mock('Illuminate\Session\Store'));
+        $session->shouldReceive('flashInput')->once()->with(array('name' => 'Taylor', 'age' => 26));
+        $response->withInput();
+    }
+
+
+    public function testOnlyInputOnRedirect()
+    {
+        $response = new RedirectResponse('foo.bar');
+        $response->setRequest(Request::create('/', 'GET', array('name' => 'Taylor', 'age' => 26)));
+        $response->setSession($session = m::mock('Illuminate\Session\Store'));
+        $session->shouldReceive('flashInput')->once()->with(array('name' => 'Taylor'));
+        $response->onlyInput('name');
+    }
+
+
+    public function testExceptInputOnRedirect()
+    {
+        $response = new RedirectResponse('foo.bar');
+        $response->setRequest(Request::create('/', 'GET', array('name' => 'Taylor', 'age' => 26)));
+        $response->setSession($session = m::mock('Illuminate\Session\Store'));
+        $session->shouldReceive('flashInput')->once()->with(array('name' => 'Taylor'));
+        $response->exceptInput('age');
+    }
 
 }
 
