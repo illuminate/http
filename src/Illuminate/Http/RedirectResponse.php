@@ -1,6 +1,7 @@
 <?php namespace Illuminate\Http;
 
 use Illuminate\Session\Store as SessionStore;
+use Illuminate\Support\MessageBag;
 
 class RedirectResponse extends \Symfony\Component\HttpFoundation\RedirectResponse {
 
@@ -75,7 +76,7 @@ class RedirectResponse extends \Symfony\Component\HttpFoundation\RedirectRespons
 	 * @param  mixed  $errors
 	 * @return void
 	 */
-	public function withErrors($errors)
+	public function withErrors(MessageBag $errors)
 	{
 		$this->with('errors', $errors);
 
