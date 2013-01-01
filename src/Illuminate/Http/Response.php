@@ -13,6 +13,19 @@ class Response extends \Symfony\Component\HttpFoundation\Response {
 	protected $originalContent;
 
 	/**
+	 * Add a cookie to the response.
+	 *
+	 * @param  Symfony\Component\HttpFoundation\Cookie  $cookie
+	 * @return Illuminate\Http\Response
+	 */
+	public function cookie(Cookie $cookie)
+	{
+		$this->headers->setCookie($cookie);
+
+		return $this;
+	}
+
+	/**
 	 * Set the content on the response.
 	 *
 	 * @param  mixed  $content
