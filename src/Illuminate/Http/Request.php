@@ -93,6 +93,16 @@ class Request extends \Symfony\Component\HttpFoundation\Request {
 	}
 
 	/**
+	 * Determine if the request is over HTTPS.
+	 *
+	 * @return bool
+	 */
+	public function secure()
+	{
+		return $this->isSecure();
+	}
+
+	/**
 	 * Determine if the request contains a given input item.
 	 *
 	 * @param  string|array  $key
