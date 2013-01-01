@@ -269,6 +269,28 @@ class Request extends \Symfony\Component\HttpFoundation\Request {
 	}
 
 	/**
+	 * Flash only some of the input to the session.
+	 *
+	 * @param  dynamic  string
+	 * @return void
+	 */
+	public function flashOnly()
+	{
+		return $this->flash('only', func_get_args());
+	}
+
+	/**
+	 * Flash only some of the input to the session.
+	 *
+	 * @param  dynamic  string
+	 * @return void
+	 */
+	public function flashExcept()
+	{
+		return $this->flash('except', func_get_args());
+	}
+
+	/**
 	 * Flush all of the old input from the session.
 	 *
 	 * @return void
