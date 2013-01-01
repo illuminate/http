@@ -1,5 +1,6 @@
 <?php namespace Illuminate\Http;
 
+use Symfony\Component\HttpFoundation\Cookie;
 use Illuminate\Support\Contracts\JsonableInterface;
 use Illuminate\Support\Contracts\RenderableInterface;
 
@@ -18,7 +19,7 @@ class Response extends \Symfony\Component\HttpFoundation\Response {
 	 * @param  Symfony\Component\HttpFoundation\Cookie  $cookie
 	 * @return Illuminate\Http\Response
 	 */
-	public function cookie(Cookie $cookie)
+	public function withCookie(Cookie $cookie)
 	{
 		$this->headers->setCookie($cookie);
 

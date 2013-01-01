@@ -1,5 +1,6 @@
 <?php namespace Illuminate\Http;
 
+use Symfony\Component\HttpFoundation\Cookie;
 use Illuminate\Session\Store as SessionStore;
 
 class RedirectResponse extends \Symfony\Component\HttpFoundation\RedirectResponse {
@@ -28,6 +29,19 @@ class RedirectResponse extends \Symfony\Component\HttpFoundation\RedirectRespons
 	public function with($key, $value)
 	{
 		$this->session->flash($key, $value);
+
+		return $this;
+	}
+
+	/**
+	 * Add a cookie to the response.
+	 *
+	 * @param  Symfony\Component\HttpFoundation\Cookie  $cookie
+	 * @return Illuminate\Http\Response
+	 */
+	public function withCookie(Cookie $cookie)
+	{
+		$this->headers->setCookie($cookie);
 
 		return $this;
 	}
