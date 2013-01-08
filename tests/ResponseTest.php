@@ -59,8 +59,20 @@ class ResponseTest extends PHPUnit_Framework_TestCase {
         $response->exceptInput('age');
     }
 
+
+    public function testFlashingErrorsOnRedirect()
+    {
+        $response = new RedirectResponse('foo.bar');
+        $response->setRequest(Request::create('/', 'GET', array('name' => 'Taylor', 'age' => 26)));
+        $response->setSession($session = m::mock('Illuminate\Session\Store'));
+        $session->shouldReceive('flash')->once()->with('errors', array('foo' => 'bar'));
+        $provider = m::mock('Illuminate\Support\Contracts\MessageProviderInterface');
+        $provider->shouldReceive('getMessageBag')->once()->andReturn(array('foo' => 'bar'));
+        $response->withErrors($provider);
+    }
+
 }
 
 class JsonableStub implements JsonableInterface {
-	public function toJson() { return 'foo'; }
+	public function toJson($options = 0) { return 'foo'; }
 }

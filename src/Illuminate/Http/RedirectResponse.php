@@ -2,6 +2,7 @@
 
 use Symfony\Component\HttpFoundation\Cookie;
 use Illuminate\Session\Store as SessionStore;
+use Illuminate\Support\Contracts\MessageProviderInterface;
 
 class RedirectResponse extends \Symfony\Component\HttpFoundation\RedirectResponse {
 
@@ -86,12 +87,19 @@ class RedirectResponse extends \Symfony\Component\HttpFoundation\RedirectRespons
 	/**
 	 * Flash a container of errors to the session.
 	 *
-	 * @param  mixed  $errors
+	 * @param  Illuminate\Support\Contracts\MessageProviderInterface|array  $provider
 	 * @return void
 	 */
-	public function withErrors($errors)
+	public function withErrors($provider)
 	{
-		$this->with('errors', $errors);
+		if ($provider instanceof MessageProviderInterface)
+		{
+			$this->with('errors', $provider->getMessageBag());
+		}
+		else
+		{
+			$this->with('errors', (array) $provider);
+		}
 
 		return $this;
 	}
