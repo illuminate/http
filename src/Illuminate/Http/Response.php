@@ -11,7 +11,7 @@ class Response extends \Symfony\Component\HttpFoundation\Response {
 	 *
 	 * @var mixed
 	 */
-	protected $originalContent;
+	public $original;
 
 	/**
 	 * Add a cookie to the response.
@@ -34,7 +34,7 @@ class Response extends \Symfony\Component\HttpFoundation\Response {
 	 */
 	public function setContent($content)
 	{
-		$this->originalContent = $content;
+		$this->original = $content;
 
 		// If the content is "JSONable" we will set the appropriate header and convert
 		// the content to JSON. This is useful when returning something like models
@@ -64,7 +64,7 @@ class Response extends \Symfony\Component\HttpFoundation\Response {
 	 */
 	public function getOriginalContent()
 	{
-		return $this->originalContent;
+		return $this->original;
 	}
 
 }
