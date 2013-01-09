@@ -349,7 +349,11 @@ class Request extends \Symfony\Component\HttpFoundation\Request {
 	 */
 	public function json()
 	{
-		return json_decode($this->getContent());
+		$arguments = func_get_args();
+
+		array_unshift($arguments, $this->getContent());
+
+		return call_user_func_array('json_decode', $arguments);
 	}
 
 	/**
