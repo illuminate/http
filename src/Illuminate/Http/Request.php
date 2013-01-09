@@ -130,7 +130,7 @@ class Request extends \Symfony\Component\HttpFoundation\Request {
 	 */
 	public function all()
 	{
-		return array_merge($this->input(), $this->files->all());
+		return array_merge($this->input(), $this->files->all(), $this->query->all());
 	}
 
 	/**
