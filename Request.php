@@ -292,7 +292,7 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
     public function json($key = null, $default = null)
     {
         if (! isset($this->json)) {
-            $this->json = new ParameterBag((array) json_decode($this->getContent(), true));
+            $this->makeParameterBagFromJson();
         }
 
         if (is_null($key)) {
@@ -300,6 +300,15 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
         }
 
         return data_get($this->json->all(), $key, $default);
+    }
+
+    private function makeParameterBagFromJson()
+    {
+        $urlDecoded = urldecode($this->getContent());
+
+        $jsonDecoded = (array) json_decode($urlDecoded, true);
+
+        $this->json = new ParameterBag($jsonDecoded);
     }
 
     /**
