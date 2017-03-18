@@ -302,6 +302,12 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
         return data_get($this->json->all(), $key, $default);
     }
 
+    /**
+     * Load parameter bag for json request.
+     *
+     * @param  void
+     * @return void
+     */
     private function makeParameterBagFromJson()
     {
         $urlDecoded = urldecode($this->getContent());
