@@ -117,7 +117,7 @@ trait DelegatesToResource
      */
     public function __get($key)
     {
-        return $this->resource->{$key};
+        return $this->resource->first()->{$key};
     }
 
     /**
