@@ -52,10 +52,14 @@ class Response implements ArrayAccess
      *
      * @return array
      */
-    public function json()
+    public function json($key = null, $default = null)
     {
         if (! $this->decoded) {
             $this->decoded = json_decode($this->body(), true);
+        }
+        
+        if (! $key) {
+            return array_get($this->decoded, $key, $default);
         }
 
         return $this->decoded;
