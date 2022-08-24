@@ -326,6 +326,19 @@ class Response implements ArrayAccess
     }
 
     /**
+     * Throw an exception if a server or client error occurred and the given condition evaluates to false.
+     *
+     * @param  bool  $condition
+     * @return $this
+     *
+     * @throws \Illuminate\Http\Client\RequestException
+     */
+    public function throwUnless($condition)
+    {
+        return $this->throwIf(! $condition);
+    }
+
+    /**
      * Determine if the given offset exists.
      *
      * @param  string  $offset
